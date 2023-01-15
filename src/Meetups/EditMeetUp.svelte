@@ -13,6 +13,15 @@
   let email = "";
   let description = "";
   let imageUrl = "";
+  let formIsValid = false;
+
+  $: formIsValid =
+    !isEmpty(title) &&
+    !isEmpty(subtitle) &&
+    !isEmpty(address) &&
+    isValidEmail(email) &&
+    !isEmpty(description) &&
+    !isEmpty(imageUrl);
 
   const dispatch = createEventDispatcher();
 
@@ -87,7 +96,9 @@
   </form>
   <div slot="footer">
     <Button type="button" mode="outline" on:click={closeModal}>Close</Button>
-    <Button type="button" on:click={submitForm}>Save</Button>
+    <Button type="button" disabled={!formIsValid} on:click={submitForm}
+      >Save</Button
+    >
   </div>
 </Modal>
 
