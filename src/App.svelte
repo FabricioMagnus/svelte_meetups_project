@@ -59,6 +59,10 @@
     updatedMeetups[meetupIndex] = updatedMeetup;
     meetups = updatedMeetups;
   }
+
+  function closeModal() {
+    editMode = false;
+  }
 </script>
 
 <Header />
@@ -68,7 +72,7 @@
     <Button on:click={() => (editMode = !editMode)}>New Meetup</Button>
   </div>
   {#if editMode}
-    <EditMeetUp on:save={addMeetup} />
+    <EditMeetUp on:save={addMeetup} on:close={closeModal} />
   {/if}
   <MeetupGrid {meetups} on:togglefavorite={toggleFavorite} />
 </main>
