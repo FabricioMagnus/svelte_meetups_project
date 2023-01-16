@@ -61,6 +61,11 @@
   function closeModal() {
     dispatch("close");
   }
+
+  function deleteMeetup() {
+    meetups.deleteMeetup(id);
+    dispatch("save");
+  }
 </script>
 
 <Modal title={"Edit MeetUp"} on:close>
@@ -121,7 +126,7 @@
       Save
     </Button>
     {#if id}
-      <Button>Delete</Button>
+      <Button type="button" on:click={deleteMeetup}>Delete</Button>
     {/if}
   </div>
 </Modal>
