@@ -48,6 +48,17 @@ const customMeetupsStore = {
       return updatedMeetups;
     });
   },
+  updateMeetUp: (id, meetupData) => {
+    console.log("update meetupData", meetupData);
+    meetups.update((items) => {
+      const index = items.findIndex((i) => i.id === id);
+      const EditedMeetup = { ...meetups[index], ...meetupData, id: id };
+      const updatedMeetups = [...items];
+      updatedMeetups[index] = EditedMeetup;
+      console.log("updateMeetups List", updatedMeetups);
+      return updatedMeetups;
+    });
+  },
 };
 
 export default customMeetupsStore;

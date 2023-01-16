@@ -7,14 +7,29 @@
   import Modal from "../UI/Modal.svelte";
   import { isEmpty, isValidEmail } from "../helpers/validation";
 
+  export let id = null;
+
   let title = "";
   let subtitle = "";
   let address = "";
   let email = "";
   let description = "";
   let imageUrl = "";
-  let formIsValid = false;
 
+  if (id) {
+    const unsubscribe = meetups.subscribe((items) => {
+      const selectedMeetUp = items.find((i) => i.id === id);
+      title = selectedMeetUp.title;
+      subtitle = selectedMeetUp.subtitle;
+      address = selectedMeetUp.address;
+      email = selectedMeetUp.contactEmail;
+      description = selectedMeetUp.description;
+      imageUrl = selectedMeetUp.imageUrl;
+    });
+    unsubscribe();
+  }
+
+  let formIsValid = false;
   $: formIsValid =
     !isEmpty(title) &&
     !isEmpty(subtitle) &&
@@ -35,7 +50,11 @@
       address: address,
     };
     // meetups.push(newMeetup); // DOES NOT WORK!
-    meetups.addMeetup(meetUpData);
+    if (id) {
+      meetups.updateMeetUp(id, meetUpData);
+    } else {
+      meetups.addMeetup(meetUpData);
+    }
     dispatch("save");
   }
 
@@ -98,9 +117,12 @@
   </form>
   <div slot="footer">
     <Button type="button" mode="outline" on:click={closeModal}>Close</Button>
-    <Button type="button" disabled={!formIsValid} on:click={submitForm}
-      >Save</Button
-    >
+    <Button type="button" disabled={!formIsValid} on:click={submitForm}>
+      Save
+    </Button>
+    {#if id}
+      <Button>Delete</Button>
+    {/if}
   </div>
 </Modal>
 
