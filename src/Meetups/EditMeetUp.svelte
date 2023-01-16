@@ -1,6 +1,6 @@
 <script>
   // @ts-nocheck
-
+  import meetups from "./meetups-store";
   import { createEventDispatcher } from "svelte";
   import Button from "../UI/Button.svelte";
   import TextInput from "../UI/TextInput.svelte";
@@ -26,14 +26,17 @@
   const dispatch = createEventDispatcher();
 
   function submitForm() {
-    dispatch("save", {
+    const meetUpData = {
       title: title,
       subtitle: subtitle,
-      address: address,
-      email: email,
       description: description,
       imageUrl: imageUrl,
-    });
+      contactEmail: email,
+      address: address,
+    };
+    // meetups.push(newMeetup); // DOES NOT WORK!
+    meetups.addMeetup(meetUpData);
+    dispatch("save");
   }
 
   function closeModal() {
