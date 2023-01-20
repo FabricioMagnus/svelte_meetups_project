@@ -45,9 +45,6 @@
 
 <main>
   {#if !detailMode}
-    <div class="meetup-controls">
-      <Button on:click={() => (addMode = !addMode)}>New Meetup</Button>
-    </div>
     {#if addMode || editMode}
       <EditMeetUp on:save={addMeetup} on:close={closeModal} id={editId} />
     {/if}
@@ -55,6 +52,9 @@
       meetups={$meetups}
       on:showDetails={showDetails}
       on:edit={editMeetup}
+      on:add={() => {
+        addMode = !addMode;
+      }}
     />
   {:else}
     <MeetUpDetail id={pageData.id} on:fechar={closeDetail} />
